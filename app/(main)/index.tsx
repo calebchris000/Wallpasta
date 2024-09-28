@@ -52,18 +52,13 @@ export default function HomePage() {
     ],
   ];
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.dark.background }}>
-      <View style={styles.topNavigation}>
-        <Text style={styles.harmburger}>&#9776;</Text>
-        <Text style={styles.heroText}>WallPasta</Text>
-        <View></View>
-      </View>
+    <SafeAreaView>
       <ScrollView
         style={{
           backgroundColor: Colors.dark.background,
         }}
       >
-        <View style={{ flex: 1, marginTop: 84 }}>
+        <View style={{ flex: 1, marginTop: 20 }}>
           <View
             style={{
               display: "flex",
@@ -73,9 +68,16 @@ export default function HomePage() {
           ></View>
         </View>
 
-        <View style={{ display: "flex", gap: 24 }}>
+        <View
+          style={{
+            display: "flex",
+            gap: 24,
+            maxWidth: 500,
+          }}
+        >
           {categories.map((category) => (
             <View
+              key={category[0].id}
               style={{
                 display: "flex",
                 flexDirection: "row",

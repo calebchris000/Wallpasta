@@ -8,9 +8,12 @@ import {
 } from "react-native";
 import placeholder from "@/assets/images/placeholder.png";
 import { useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 export const Category = ({ title, image }: { title: string; image: any }) => {
   const [currentImage, setImage] = useState(placeholder);
-
+  const navigation = useNavigation<any>();
   useEffect(() => {
     const loadImage = async () => {
       try {
@@ -25,14 +28,19 @@ export const Category = ({ title, image }: { title: string; image: any }) => {
     loadImage();
   }, []);
   return (
-    <ImageBackground source={currentImage} style={style.imageBackground}>
-      <View style={style.title}>
-        <View style={style.titleOverlay}></View>
-        <Text style={{ fontSize: 20, color: "#fff", fontWeight: "700" }}>
-          {title}
-        </Text>
-      </View>
-    </ImageBackground>
+    <TouchableOpacity
+      style={{ flex: 1 }}
+      onPress={() => navigation.navigate("(wallpapers)")}
+    >
+      <ImageBackground source={currentImage} style={style.imageBackground}>
+        <View style={style.title}>
+          <View style={style.titleOverlay}></View>
+          <Text style={{ fontSize: 20, color: "#fff", fontWeight: "700" }}>
+            {title}
+          </Text>
+        </View>
+      </ImageBackground>
+    </TouchableOpacity>
   );
 };
 
