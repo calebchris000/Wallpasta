@@ -1,6 +1,6 @@
 # Welcome to Wallpasta 🍝
 
-Wallpasta is a React Native app created with [Expo](https://expo.dev) using [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Wallpasta is a simple wallpaper app where you can get HD images for your device. It's built as a React Native app created with [Expo](https://expo.dev) using [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ## Get started
 
