@@ -8,6 +8,8 @@ export interface StoreState {
   setShowTab: (bool: boolean) => void;
   selectedCategory: CategoryType;
   setSelectedCategory: (category: CategoryType) => void;
+  selectedImage: string;
+  setSelectedImage: (image: string) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -25,5 +27,10 @@ export const useStore = create<StoreState>((set) => ({
   setSelectedCategory: (category: CategoryType) =>
     set((state) => ({
       selectedCategory: category,
+    })),
+  selectedImage: "",
+  setSelectedImage: (image: string) =>
+    set((state) => ({
+      selectedImage: image,
     })),
 }));

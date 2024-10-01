@@ -18,13 +18,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function ViewWallpaper() {
-  const { showTab, showNavbar, setShowNavbar, setShowTab } = useStore();
+  const { showTab, showNavbar, setShowNavbar, setShowTab, selectedImage } =
+    useStore();
   const visibility = NavigationBar.useVisibility();
   const route = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    console.log(route, "route");
     setShowTab(false);
     setShowNavbar(false);
     async function hideNavbar() {
@@ -46,7 +46,7 @@ export default function ViewWallpaper() {
     <SafeAreaView style={styles.parent}>
       <ImageBackground
         style={{ width: "100%", height: "100%" }}
-        source={splash}
+        source={{ uri: selectedImage } ?? splash}
       >
         <TouchableOpacity
           onPress={() => {

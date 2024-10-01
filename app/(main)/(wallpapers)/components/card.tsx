@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+import { useStore } from "@/app/core/store";
 
 export const Card = ({ image }: { image: any }) => {
   const router = useRouter();
@@ -27,12 +28,14 @@ export const Card = ({ image }: { image: any }) => {
     resolveImage();
   }, []);
   const [currentImage, setImage] = useState("assets/images/splash.png");
+  const { setSelectedImage } = useStore();
   const navigation = useNavigation<any>();
 
   return (
     <TouchableOpacity
       style={{ borderRadius: 16, overflow: "hidden" }}
       onPress={() => {
+        setSelectedImage(image);
         router.navigate("/view");
       }}
     >
@@ -50,8 +53,8 @@ export const Card = ({ image }: { image: any }) => {
 
 const styles = StyleSheet.create({
   card: {
-    width: "47%", // Adjust this value to control the width of each card
-    aspectRatio: 2 / 3, // Maintain a 2:3 aspect ratio
+    width: "47%",
+    aspectRatio: 2 / 3,
     marginBottom: 10,
     height: Dimensions.get("window").height * 0.4,
   },
