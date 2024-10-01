@@ -49,7 +49,7 @@ const style = StyleSheet.create({
     overflow: "hidden",
     borderRadius: 24,
     flex: 1,
-    height: 240,
+    height: 280,
   },
   title: {
     flex: 1,

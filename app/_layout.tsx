@@ -14,12 +14,13 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Navbar } from "./components/navbar";
 import { Dimensions } from "react-native";
 import { useStore } from "./core/store";
+import { Tab } from "./(main)/components/tab";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const { showNavbar } = useStore();
+  const { showNavbar, showTab } = useStore();
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -48,6 +49,7 @@ export default function RootLayout() {
           <Stack.Screen name="+not-found" />
         </Stack>
       </ThemeProvider>
+      {showTab && <Tab />}
     </GestureHandlerRootView>
   );
 }

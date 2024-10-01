@@ -18,16 +18,16 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function ViewWallpaper() {
-  const { setShowNavbar, setShowTab } = useStore();
+  const { showTab, showNavbar, setShowNavbar, setShowTab } = useStore();
   const visibility = NavigationBar.useVisibility();
   const route = usePathname();
   const router = useRouter();
 
   useEffect(() => {
+    console.log(route, "route");
+    setShowTab(false);
+    setShowNavbar(false);
     async function hideNavbar() {
-      setShowNavbar(false);
-      setShowTab(false);
-
       if (Platform.OS === "android") {
         StatusBar.setHidden(true, "fade");
         await NavigationBar.setVisibilityAsync("hidden");
@@ -36,6 +36,11 @@ export default function ViewWallpaper() {
     }
     hideNavbar();
   }, [route]);
+
+  useEffect(() => {
+    console.log("showTab: ", showTab);
+    console.log("showNavbar: ", showNavbar);
+  }, [showTab, showNavbar]);
 
   return (
     <SafeAreaView style={styles.parent}>

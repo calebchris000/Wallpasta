@@ -35,6 +35,14 @@ export default function Layout() {
           href: null,
         }}
       />
+      <Tabs.Screen
+        name="(favourite)"
+        options={{
+          title: "Favourite",
+          headerShown: false,
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }

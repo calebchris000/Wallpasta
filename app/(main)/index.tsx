@@ -8,18 +8,17 @@ import cars from "@/assets/images/categories/cars.jpg";
 import animals from "@/assets/images/categories/animals.jpg";
 import spiritual from "@/assets/images/categories/spiritual.jpg";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useStore } from "../core/store";
-import { Tab } from "./components/tab";
-import { useRoute } from "@react-navigation/native";
 import { usePathname } from "expo-router";
 export default function HomePage() {
-  const { setShowNavbar } = useStore();
+  const { setShowNavbar, setShowTab } = useStore();
   const route = usePathname();
 
   useEffect(() => {
     setShowNavbar(true);
-  }, [route]);
+    setShowTab(true);
+  }, []);
 
   const categories = [
     [
@@ -60,6 +59,7 @@ export default function HomePage() {
       <ScrollView
         style={{
           backgroundColor: Colors.dark.background,
+          marginBottom: 100,
         }}
       >
         <View style={{ flex: 1, marginTop: 20 }}>
@@ -103,7 +103,6 @@ export default function HomePage() {
           ))}
         </View>
       </ScrollView>
-      <Tab />
     </SafeAreaView>
   );
 }

@@ -2,18 +2,17 @@ import {
   Dimensions,
   ImageBackground,
   StyleSheet,
-  Text,
   Image,
   TouchableOpacity,
   View,
 } from "react-native";
 import placeholder from "@/assets/images/placeholder.png";
 import { useEffect, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
-import { useRouter } from "expo-router";
 
 export const Card = ({ image }: { image: any }) => {
-  const router = useRouter();
   useEffect(() => {
     async function resolveImage() {
       const loaded = await Image.resolveAssetSource(image);
@@ -30,7 +29,7 @@ export const Card = ({ image }: { image: any }) => {
     <TouchableOpacity
       style={{ borderRadius: 16, overflow: "hidden" }}
       onPress={() => {
-        router.navigate("/view");
+        router.navigate("/(main)/(wallpapers)/(view)/view");
       }}
     >
       <ImageBackground
@@ -40,7 +39,20 @@ export const Card = ({ image }: { image: any }) => {
           width: Dimensions.get("window").width * 0.48,
           height: Dimensions.get("window").height * 0.4,
         }}
-      ></ImageBackground>
+      >
+        <View
+          style={{
+            position: "absolute",
+            top: 16,
+            right: 16,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            borderRadius: 99,
+            padding: 8,
+          }}
+        >
+          <Ionicons name="heart" size={20} color="red" />
+        </View>
+      </ImageBackground>
     </TouchableOpacity>
   );
 };

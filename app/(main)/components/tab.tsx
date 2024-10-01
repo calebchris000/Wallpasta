@@ -1,20 +1,33 @@
+import { Colors } from "@/constants/Colors";
 import { Ionicons as Icon } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Text,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
 
 export const Tab = () => {
   const [selectedTab, setSelectedTab] = useState("home");
+  const navigation = useNavigation<any>();
 
   return (
-    <View style={styles.tabContainer}>
+    <SafeAreaView style={styles.tabContainer}>
       <TouchableOpacity
-        style={[styles.tab, selectedTab === "home" && styles.selectedTab]}
-        onPress={() => setSelectedTab("home")}
+        style={[styles.tab]}
+        onPress={() => {
+          setSelectedTab("home");
+          navigation.navigate("index");
+        }}
       >
         <Icon
-          name="home"
+          name="home-outline"
           size={24}
-          color={selectedTab === "home" ? "#007AFF" : "#8E8E93"}
+          color={selectedTab === "home" ? "#fff" : "#8E8E93"}
         />
         <Text
           style={[
@@ -26,13 +39,16 @@ export const Tab = () => {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.tab, selectedTab === "search" && styles.selectedTab]}
-        onPress={() => setSelectedTab("search")}
+        style={[styles.tab]}
+        onPress={() => {
+          setSelectedTab("search");
+          navigation.navigate("(search)");
+        }}
       >
         <Icon
           name="search"
           size={24}
-          color={selectedTab === "search" ? "#007AFF" : "#8E8E93"}
+          color={selectedTab === "search" ? "#fff" : "#8E8E93"}
         />
         <Text
           style={[
@@ -43,35 +59,57 @@ export const Tab = () => {
           Search
         </Text>
       </TouchableOpacity>
-    </View>
+      <TouchableOpacity
+        style={[styles.tab]}
+        onPress={() => {
+          setSelectedTab("heart");
+          navigation.navigate("(favourite)");
+        }}
+      >
+        <Icon
+          name="heart-outline"
+          size={24}
+          color={selectedTab === "heart" ? "#fff" : "#8E8E93"}
+        />
+        <Text
+          style={[
+            styles.tabText,
+            selectedTab === "heart" && styles.selectedTabText,
+          ]}
+        >
+          Favourite
+        </Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    height: 84,
+    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F2F2F7",
-    height: 50,
-    borderTopWidth: 1,
-    borderTopColor: "#D1D1D6",
+    backgroundColor: "#1f1f1f",
+    borderRadius: 32,
+    position: "absolute",
+    bottom: "1%",
+    left: "1%",
+    right: "1%",
+    width: Dimensions.get("screen").width * 0.98,
   },
   tab: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  selectedTab: {
-    borderTopWidth: 2,
-    borderTopColor: "#007AFF",
-  },
+
   tabText: {
     fontSize: 12,
     color: "#8E8E93",
     marginTop: 4,
   },
   selectedTabText: {
-    color: "#007AFF",
+    color: "#fff",
   },
 });

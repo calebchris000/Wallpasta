@@ -18,7 +18,7 @@ export default function Wallpapers() {
   const [loading, setLoading] = useState(false);
   const route = usePathname();
 
-  const { setShowNavbar, setShowTab, showTab, showNavbar } = useStore();
+  const { setShowNavbar, setShowTab } = useStore();
 
   useEffect(() => {
     if (route !== "/view") {

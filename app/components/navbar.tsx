@@ -28,7 +28,7 @@ export const Navbar = () => {
           justifyContent: "center",
         }}
       >
-        {currentScreen === "(main)" || currentScreen === "(favourite)" ? (
+        {currentScreen === "(main)" || currentScreen === "favourite" ? (
           <Text
             style={{
               color: "white",
@@ -37,7 +37,7 @@ export const Navbar = () => {
               fontWeight: "700",
             }}
           >
-            {currentScreen === "(main)" ? "WallPasta" : "Favourites"}
+            {currentScreen === "(main)" ? "WallPasta" : "Favourite"}
           </Text>
         ) : (
           <Search

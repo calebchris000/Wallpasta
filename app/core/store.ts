@@ -8,12 +8,12 @@ export interface StoreState {
 }
 
 export const useStore = create<StoreState>((set) => ({
-  showNavbar: true,
+  showNavbar: false,
   setShowNavbar: (bool) =>
     set((state) => ({
       showNavbar: bool,
     })),
-  showTab: true,
+  showTab: false,
   setShowTab: (bool) =>
     set((state) => ({
       showTab: bool,
