@@ -4,7 +4,7 @@ export default function Layout() {
   return (
     <Stack>
       <Stack.Screen
-        name="index"
+        name="search"
         options={{ title: "Search", headerShown: false }}
       ></Stack.Screen>
     </Stack>

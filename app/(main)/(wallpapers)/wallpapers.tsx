@@ -1,18 +1,23 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Card } from "./components/card";
 import { Skeleton } from "./components/skeleton";
-import { useState } from "react";
-import splash from '@/assets/images/splash.png'
+import { useEffect, useState } from "react";
+import splash from "@/assets/images/splash.png";
+import { useStore } from "@/app/core/store";
 export default function Wallpapers() {
   const [loading, setLoading] = useState(false);
+  const { setShowNavbar, showNavbar } = useStore();
+  useEffect(() => {
+    setShowNavbar(true);
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.parent}>
       {loading ? (
         <Skeleton />
       ) : (
         <>
-          {[...Array(10).fill(0)].map(() => (
-            <Card image={splash} />
+          {[...Array(10).fill(0)].map((_, index) => (
+            <Card key={index} image={splash} />
           ))}
         </>
       )}

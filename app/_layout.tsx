@@ -13,11 +13,13 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Navbar } from "./components/navbar";
 import { Dimensions } from "react-native";
+import { useStore } from "./core/store";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const { showNavbar } = useStore();
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -40,7 +42,7 @@ export default function RootLayout() {
       }}
     >
       <ThemeProvider value={DarkTheme}>
-        <Navbar />
+        {showNavbar && <Navbar />}
         <Stack>
           <Stack.Screen name="(main)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />

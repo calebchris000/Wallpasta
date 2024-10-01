@@ -1,13 +1,6 @@
 import { Category } from "@/components/category";
 import { Colors } from "@/constants/Colors";
-import {
-  Dimensions,
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-} from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
 import nature from "@/assets/images/categories/nature.jpg";
 import sports from "@/assets/images/categories/sports.jpg";
 import space from "@/assets/images/categories/space.jpg";
@@ -15,8 +8,19 @@ import cars from "@/assets/images/categories/cars.jpg";
 import animals from "@/assets/images/categories/animals.jpg";
 import spiritual from "@/assets/images/categories/spiritual.jpg";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { useContext, useEffect } from "react";
+import { useStore } from "../core/store";
+import { Tab } from "./components/tab";
+import { useRoute } from "@react-navigation/native";
+import { usePathname } from "expo-router";
 export default function HomePage() {
+  const { setShowNavbar } = useStore();
+  const route = usePathname();
+
+  useEffect(() => {
+    setShowNavbar(true);
+  }, [route]);
+
   const categories = [
     [
       {
@@ -99,6 +103,7 @@ export default function HomePage() {
           ))}
         </View>
       </ScrollView>
+      <Tab />
     </SafeAreaView>
   );
 }

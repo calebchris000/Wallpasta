@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import placeholder from "@/assets/images/placeholder.png";
 import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export const Card = ({ image }: { image: any }) => {
   useEffect(() => {
@@ -23,11 +24,14 @@ export const Card = ({ image }: { image: any }) => {
     
   }, [])
   const [currentImage, setImage] = useState(placeholder);
+  const navigation = useNavigation<any>()
 
   return (
     <TouchableOpacity
       style={{ borderRadius: 16, overflow: "hidden" }}
-      onPress={() => {}}
+      onPress={() => {
+        navigation.navigate('(view)')
+      }}
     >
       <ImageBackground
         source={currentImage}
