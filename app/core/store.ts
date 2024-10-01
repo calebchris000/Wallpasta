@@ -1,3 +1,4 @@
+import { CategoryType } from "@/types";
 import { create } from "zustand";
 
 export interface StoreState {
@@ -5,6 +6,8 @@ export interface StoreState {
   showNavbar: boolean;
   setShowNavbar: (bool: boolean) => void;
   setShowTab: (bool: boolean) => void;
+  selectedCategory: CategoryType;
+  setSelectedCategory: (category: CategoryType) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -17,5 +20,10 @@ export const useStore = create<StoreState>((set) => ({
   setShowTab: (bool) =>
     set((state) => ({
       showTab: bool,
+    })),
+  selectedCategory: "",
+  setSelectedCategory: (category: CategoryType) =>
+    set((state) => ({
+      selectedCategory: category,
     })),
 }));

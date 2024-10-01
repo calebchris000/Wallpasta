@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import placeholder from "@/assets/images/placeholder.png";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
@@ -16,14 +15,18 @@ export const Card = ({ image }: { image: any }) => {
   const router = useRouter();
   useEffect(() => {
     async function resolveImage() {
-      const loaded = await Image.resolveAssetSource(image);
-      if (loaded) {
-        setImage(loaded);
+      if (image.startsWith("https://")) {
+        setImage(image);
+      } else {
+        const loaded = await Image.resolveAssetSource(image);
+        if (loaded) {
+          setImage(loaded.uri);
+        }
       }
     }
     resolveImage();
   }, []);
-  const [currentImage, setImage] = useState(placeholder);
+  const [currentImage, setImage] = useState("assets/images/splash.png");
   const navigation = useNavigation<any>();
 
   return (
@@ -34,7 +37,7 @@ export const Card = ({ image }: { image: any }) => {
       }}
     >
       <ImageBackground
-        source={currentImage}
+        source={{ uri: currentImage }}
         style={{
           backgroundColor: "gray",
           width: Dimensions.get("window").width * 0.48,

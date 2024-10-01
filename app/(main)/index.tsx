@@ -1,6 +1,6 @@
 import { Category } from "@/components/category";
 import { Colors } from "@/constants/Colors";
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, Text } from "react-native";
 import nature from "@/assets/images/categories/nature.jpg";
 import sports from "@/assets/images/categories/sports.jpg";
 import space from "@/assets/images/categories/space.jpg";
@@ -11,6 +11,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect } from "react";
 import { useStore } from "../core/store";
 import { usePathname } from "expo-router";
+import { getEnv } from "../core/core";
+import { CategoryType } from "@/types";
 export default function HomePage() {
   const { setShowNavbar, setShowTab } = useStore();
   const route = usePathname();
@@ -20,17 +22,24 @@ export default function HomePage() {
     setShowTab(true);
   }, []);
 
-  const categories = [
+  const categories: {
+    id: number;
+    title: string;
+    image: any;
+    slug: CategoryType;
+  }[][] = [
     [
       {
         id: 1,
         title: "Nature",
         image: nature,
+        slug: "nature",
       },
       {
         id: 2,
         title: "Sports",
         image: sports,
+        slug: "sports",
       },
     ],
     [
@@ -38,19 +47,27 @@ export default function HomePage() {
         id: 3,
         title: "Space",
         image: space,
+        slug: "space",
       },
-      { id: 4, title: "Cars", image: cars },
+      {
+        id: 4,
+        title: "Cars",
+        image: cars,
+        slug: "cars",
+      },
     ],
     [
       {
         id: 5,
         title: "Animals",
         image: animals,
+        slug: "animals",
       },
       {
         id: 6,
         title: "Spiritual",
         image: spiritual,
+        slug: "spiritual",
       },
     ],
   ];
@@ -92,11 +109,13 @@ export default function HomePage() {
               <Category
                 key={category[0].id}
                 title={category[0].title}
+                slug={category[0].slug}
                 image={category[0].image}
               />
               <Category
                 key={category[1].id}
                 title={category[1].title}
+                slug={category[1].slug}
                 image={category[1].image}
               />
             </View>

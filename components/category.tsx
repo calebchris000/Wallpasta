@@ -11,9 +11,20 @@ import { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
-export const Category = ({ title, image }: { title: string; image: any }) => {
+import { CategoryType } from "@/types";
+import { useStore } from "@/app/core/store";
+export const Category = ({
+  title,
+  slug,
+  image,
+}: {
+  title: string;
+  image: any;
+  slug: CategoryType;
+}) => {
   const [currentImage, setImage] = useState(placeholder);
   const navigation = useNavigation<any>();
+  const { setSelectedCategory } = useStore();
   useEffect(() => {
     const loadImage = async () => {
       try {
@@ -30,7 +41,10 @@ export const Category = ({ title, image }: { title: string; image: any }) => {
   return (
     <TouchableOpacity
       style={{ flex: 1 }}
-      onPress={() => navigation.navigate("(wallpapers)")}
+      onPress={() => {
+        setSelectedCategory(slug);
+        navigation.navigate("(wallpapers)");
+      }}
     >
       <ImageBackground source={currentImage} style={style.imageBackground}>
         <View style={style.title}>

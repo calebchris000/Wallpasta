@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, SafeAreaView } from "react-native";
+import { StyleSheet, View, Text, SafeAreaView, StatusBar } from "react-native";
 import { Search } from "./search";
 import { usePathname, useRouter } from "expo-router";
 import { useExpoRouter } from "expo-router/build/global-state/router-store";
@@ -14,6 +14,9 @@ export const Navbar = () => {
       const last = segments[segments.length - 1];
       setCurrentScreen(last);
     }
+
+    StatusBar.setBackgroundColor("#1f1f1f");
+    StatusBar.setBarStyle("light-content");
   }, [pathname, route.routeInfo?.segments]);
   return (
     <SafeAreaView style={styles.parent}>
@@ -28,7 +31,7 @@ export const Navbar = () => {
           justifyContent: "center",
         }}
       >
-        {currentScreen === "(main)" || currentScreen === "favourite" ? (
+        {currentScreen !== "search" ? (
           <Text
             style={{
               color: "white",
@@ -37,7 +40,11 @@ export const Navbar = () => {
               fontWeight: "700",
             }}
           >
-            {currentScreen === "(main)" ? "WallPasta" : "Favourite"}
+            {currentScreen === "(main)"
+              ? "Wallpasta"
+              : currentScreen === "favourite"
+                ? "Favourite"
+                : "Wallpasta"}
           </Text>
         ) : (
           <Search

@@ -9,17 +9,17 @@ import {
 import { Card } from "./components/card";
 import { Skeleton } from "./components/skeleton";
 import { useEffect, useState } from "react";
-import splash from "@/assets/images/splash.png";
 import { useStore } from "@/app/core/store";
 import * as NavigationBar from "expo-navigation-bar";
 import { usePathname } from "expo-router";
-import { Tab } from "../components/tab";
+import { GetImages } from "@/api/images";
+import { imageResponseType } from "@/types";
 export default function Wallpapers() {
   const [loading, setLoading] = useState(false);
   const route = usePathname();
 
-  const { setShowNavbar, setShowTab, showTab, showNavbar } = useStore();
-
+  const { setShowNavbar, setShowTab, selectedCategory } = useStore();
+  const [images, setImages] = useState<imageResponseType[] | []>([]);
   useEffect(() => {
     if (route !== "/view") {
       setShowTab(true);
@@ -35,6 +35,24 @@ export default function Wallpapers() {
     }
     showNavigation();
   }, [route]);
+
+  useEffect(() => {
+    setLoading(true);
+    GetImages({ category: selectedCategory })
+      .then((d: any) => {
+        setLoading(false);
+        setImages(d);
+      })
+      .catch((e) => {
+        setLoading(false);
+        console.log(e?.request?.responseURL || e?.message);
+      });
+
+    return () => {
+      setImages([]);
+      setLoading(true);
+    };
+  }, [route]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.parent}>
@@ -42,8 +60,8 @@ export default function Wallpapers() {
           <Skeleton />
         ) : (
           <>
-            {[...Array(10).fill(0)].map((_, index) => (
-              <Card key={index} image={splash} />
+            {images.map((image, index) => (
+              <Card key={index} image={image.url} />
             ))}
           </>
         )}
