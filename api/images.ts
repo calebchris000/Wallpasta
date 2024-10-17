@@ -1,14 +1,15 @@
 import { CategoryType } from "@/types";
 import { axiosInstance as axios } from "./axios";
-import { UNSPLASH_ACCESS_KEY } from "@env";
+import Constants from "expo-constants";
 
 export const GetImages = async ({ category }: { category: CategoryType }) => {
+  const access_key = Constants.expoConfig?.extra?.UNSPLASH_ACCESS_KEY;
   const response = await axios.get("/search/photos", {
     params: {
       per_page: 20,
       page: 1,
       query: category,
-      client_id: UNSPLASH_ACCESS_KEY,
+      client_id: access_key,
     },
   });
   const { data, status } = response;

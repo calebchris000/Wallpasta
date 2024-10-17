@@ -9,15 +9,17 @@ import {
   Share,
   View,
 } from "react-native";
-
 import placeholder from "@/assets/images/placeholder.png";
-import { useContext, useEffect, useState } from "react";
+import * as FileSystem from "expo-file-system";
+import * as DocumentPicker from "expo-document-picker";
+import * as Sharing from "expo-sharing";
+import { useEffect, useState } from "react";
 import { useStore } from "@/app/core/store";
 import { usePathname, useRouter } from "expo-router";
 import * as NavigationBar from "expo-navigation-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import * as FileSystem from "expo-file-system";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ViewWallpaper() {
@@ -78,23 +80,73 @@ export default function ViewWallpaper() {
 
   async function handleShare() {
     if (Platform.OS === "android" || Platform.OS === "ios") {
-      const filePath = `${FileSystem.cacheDirectory}/tempImage.png`;
+      Share.share({ message: selectedImage, url: selectedImage });
+    }
+    const path = await checkFolderPath();
+
+    if (path) {
+      const fileName = selectedImage.split("/").pop();
+      const filePath = `${path}/${fileName}`;
+
       try {
-        await FileSystem.writeAsStringAsync(
+        const downloadResult = await FileSystem.downloadAsync(
+          selectedImage,
           filePath,
-          renderedImage.split(",")[1],
-          {
-            encoding: FileSystem.EncodingType.Base64,
-          },
         );
-        try {
-        } catch (err) {
-          console.log(err);
+        if (downloadResult.status === 200) {
+          Share.share({
+            title: "Share Wallpaper",
+            url: downloadResult.uri,
+          });
+        } else {
+          alert("Failed to download the image");
         }
       } catch (error) {
-        console.error("Error writing image file:", error);
+        console.error("Error downloading or sharing the image:", error);
+        alert("An error occurred while downloading or sharing the image");
       }
     }
+  }
+
+  async function handleDownload() {
+    const path = await checkFolderPath();
+
+    if (path) {
+      const fileName = selectedImage.split("/").pop();
+      const filePath = `${path}/${fileName}`;
+
+      try {
+        const downloadResult = await FileSystem.downloadAsync(
+          selectedImage,
+          filePath,
+        );
+        if (downloadResult.status === 200) {
+          alert("Image downloaded successfully");
+        } else {
+          alert("Failed to download the image");
+        }
+      } catch (error) {
+        console.error("Error downloading the image:", error);
+        alert("An error occurred while downloading the image");
+      }
+    } else {
+      alert("Could not find or create the download directory");
+    }
+  }
+
+  async function checkFolderPath() {
+    const externalPath = FileSystem.documentDirectory;
+    if (!externalPath) {
+      alert("Could not find directory");
+      return;
+    }
+    const directory = `${externalPath}Wallpasta`;
+    const directoryInfo = await FileSystem.getInfoAsync(directory);
+    if (directoryInfo.exists) {
+      return directory;
+    }
+    await FileSystem.makeDirectoryAsync(directory);
+    return directory;
   }
 
   async function handleLike() {
@@ -107,7 +159,6 @@ export default function ViewWallpaper() {
     } else {
       const parsed = JSON.parse(favourites) as { url: string }[];
       const exists = parsed.find((c) => c.url === selectedImage);
-      console.log(exists);
       if (!exists) {
         await AsyncStorage.setItem(
           "favourites",
@@ -147,7 +198,7 @@ export default function ViewWallpaper() {
           <TouchableOpacity style={styles.iconButton} onPress={handleShare}>
             <Ionicons name="share-outline" size={32} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity onPress={handleDownload} style={styles.iconButton}>
             <Ionicons name="download-outline" size={32} color="white" />
           </TouchableOpacity>
         </View>
